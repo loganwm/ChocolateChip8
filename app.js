@@ -16,5 +16,5 @@ console.log(x.toString(16));
 var c8 = new cc.Chip8Emulator();
 //var c8 = new cc.Chip8Emulator();
 c8.loadROM("roms/pong.ch8");
-
+c8.executeROM();
 //cc.fuck();
