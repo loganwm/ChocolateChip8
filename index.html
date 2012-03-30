@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>Chocolate Chip 8</title>
+	</head>
+	<body>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.js"></script>
+		<script type="text/javascript" src="socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="./js/chip8.js"></script>
+
+		<script type="text/javascript">
+			var socket = io.connect("http://localhost");
+			var emu = new Chip8Emulator();
+
+			socket.on('fuck', function(data)
+			{
+				console.log(data);
+				socket.emit('cock', {my: data});
+			});
+
+			socket.on('deliver-rom', function(data)
+			{
+				console.log(data);
+				socket.emit('cock', {my: data});
+			});
+
+
+		</script>
+	</body>
+</html>

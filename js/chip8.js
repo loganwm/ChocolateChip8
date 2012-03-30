@@ -1,25 +1,32 @@
-var fs = require('fs');
+//var fs = require('fs');
 
 var Chip8Emulator = function()
 {
-	this.memory = new Buffer(3584); //Address space starts at 200h
-	this.registers = new Buffer(16); //V0 through VF
-	this.stack = new Buffer(48); //Should nest at least 12 address (used for subroutines)
-	this.delay_timer = new Buffer(1); //ticks down at 60hz
-	this.sound_timer = new Buffer(1); //ticks down at 60hz, beeps until zero
-	this.address_register = new Buffer(2);
-	this.instruction_register = new Buffer(2);
+	this.memory = []; //Address space starts at 200h
+	this.registers = []; //V0 through VF
+	this.stack = []; //Should nest at least 12 address (used for subroutines)
+	this.delay_timer = 0; //ticks down at 60hz
+	this.sound_timer = 0; //ticks down at 60hz, beeps until zero
+	this.address_register = 0;
+	this.instruction_register = 0;
 };
 
 Chip8Emulator.prototype =
 {
+	printit: function()
+	{
+		document.write("cockcidmsif");
+	},
+
 	//Zeroes out ROM but not registers
 	clearROM: function()
 	{
-		for (var index = 0; index < 3584; index++)
+		for (var index = 0; index < 4096; index++)
 		{
 			this.memory[index] = 0;
 		}
+		
+		this.ROM_size = 0;
 	},
 	
 	//Clear registers
@@ -32,17 +39,15 @@ Chip8Emulator.prototype =
 		}
 		
 		//clear address register
-		this.address_register[0] = 0;
-		this.address_register[1] = 0;
-		
+		this.address_register = 0;		
+
 		//clear timers
-		this.delay_timer[0] = 0;
-		this.sound_timer[0] = 0;
+		this.delay_timer = 0;
+		this.sound_timer = 0;
 		
 		//clear instruction register
-		this.instruction_register[0] = 0;
-		this.instruction_register[1] = 0;
-
+		this.instruction_register = 0;
+		this.instruction_register = 0;
 	},
 	
 	//Clear the stack
@@ -62,15 +67,6 @@ Chip8Emulator.prototype =
 		this.clearROM();
 		this.clearStack();
 		this.resetRegisters();
-
-		var data = fs.readFileSync(filename)
-
-		console.log("Data Size: " + data.length);
-
-		for (var index = 0; index < data.length; index++)
-		{
-			this.memory[index] = data[index];
-		}		
 	},
 
 	/**************************************
@@ -234,6 +230,7 @@ Chip8Emulator.prototype =
 	opcodeFX33: function(opcode)
 	{
 		console.log("This opcode needs to be read over at a point when I'm not asleep");
+		console.log("sheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeit");
 	},
 
 	opcodeFX55: function(opcode)
@@ -264,7 +261,7 @@ Chip8Emulator.prototype =
 						this.opcode00EE(opcode);
 						break;
 					default:
-						//this.opcode0NNN(opcode);
+						this.opcode0NNN(opcode);
 						break;
 				}
 				break;
@@ -381,13 +378,14 @@ Chip8Emulator.prototype =
 	
 	executeROM: function()
 	{
-		for (var index = 0; index < this.memory.length; index = index + 2)
+		for (var index = 0; index < this.ROM_size; index = index + 2)
 		{
-			this.decodeOpcode(this.memory.readInt16BE(index));
+			var x = Math.abs(this.memory.readInt16BE(index));
+			//this.decodeOpcode(this.memory.readInt16BE(index));
+			//console.log("Code: " + x.toString(16));
 		}
 	}
 	
 };
 
 
-module.exports.Chip8Emulator = Chip8Emulator;
