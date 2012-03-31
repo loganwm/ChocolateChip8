@@ -45,7 +45,7 @@ console.log('request starting...');
 
 io.sockets.on('connection', function (socket)
 {
-	var rom = cc.loadROM("roms/pong.ch8")
+	var rom = cc.loadROM("roms/Maze.ch8")
 
 	socket.emit('deliver-rom', rom);
 

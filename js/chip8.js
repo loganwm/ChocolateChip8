@@ -46,6 +46,119 @@ Chip8Emulator.prototype =
 			this.memory[index] = 0;
 		}
 		
+		/* Font: 0 */
+		this.memory[0x0000] = 0xF0;
+		this.memory[0x0001] = 0x90;
+		this.memory[0x0002] = 0x90;
+		this.memory[0x0003] = 0x90;
+		this.memory[0x0004] = 0xF0;
+
+		/* Font: 1 */
+		this.memory[0x0005] = 0x20;
+		this.memory[0x0006] = 0x60;
+		this.memory[0x0007] = 0x20;
+		this.memory[0x0008] = 0x20;
+		this.memory[0x0009] = 0x70;
+
+		/* Font: 2 */
+		this.memory[0x000A] = 0x20;
+		this.memory[0x000B] = 0x60;
+		this.memory[0x000C] = 0x20;
+		this.memory[0x000D] = 0x20;
+		this.memory[0x000E] = 0x70;
+
+		/* Font: 3 */
+		this.memory[0x000F] = 0xF0;
+		this.memory[0x0010] = 0x10;
+		this.memory[0x0011] = 0xF0;
+		this.memory[0x0012] = 0x10;
+		this.memory[0x0013] = 0xF0;
+
+		/* Font: 4 */
+		this.memory[0x0014] = 0x90;
+		this.memory[0x0015] = 0x90;
+		this.memory[0x0016] = 0xF0;
+		this.memory[0x0017] = 0x10;
+		this.memory[0x0018] = 0x10;
+
+		/* Font: 5 */
+		this.memory[0x0019] = 0xF0;
+		this.memory[0x001A] = 0x80;
+		this.memory[0x001B] = 0xF0;
+		this.memory[0x001C] = 0x10;
+		this.memory[0x001D] = 0xF0;
+
+		/* Font: 6 */
+		this.memory[0x001E] = 0xF0;
+		this.memory[0x001F] = 0x80;
+		this.memory[0x0020] = 0xF0;
+		this.memory[0x0021] = 0x90;
+		this.memory[0x0022] = 0xF0;
+
+		/* Font: 7 */
+		this.memory[0x0023] = 0xF0;
+		this.memory[0x0024] = 0x10;
+		this.memory[0x0025] = 0x20;
+		this.memory[0x0026] = 0x40;
+		this.memory[0x0027] = 0x40;
+
+		/* Font: 8 */
+		this.memory[0x0028] = 0xF0;
+		this.memory[0x0029] = 0x90;
+		this.memory[0x002A] = 0xF0;
+		this.memory[0x002B] = 0x90;
+		this.memory[0x002C] = 0xF0;
+
+		/* Font: 9 */
+		this.memory[0x002D] = 0xF0;
+		this.memory[0x002E] = 0x90;
+		this.memory[0x002F] = 0xF0;
+		this.memory[0x0030] = 0x10;
+		this.memory[0x0031] = 0xF0;
+
+		/* Font: A */
+		this.memory[0x0032] = 0xF0;
+		this.memory[0x0033] = 0x90;
+		this.memory[0x0034] = 0xF0;
+		this.memory[0x0035] = 0x90;
+		this.memory[0x0036] = 0x90;
+
+		/* Font: B */
+		this.memory[0x0037] = 0xE0;
+		this.memory[0x0038] = 0x90;
+		this.memory[0x0039] = 0xE0;
+		this.memory[0x003A] = 0x90;
+		this.memory[0x003B] = 0xE0;
+
+		/* Font: C */
+		this.memory[0x003C] = 0xF0;
+		this.memory[0x003D] = 0x80;
+		this.memory[0x003E] = 0x80;
+		this.memory[0x003F] = 0x80;
+		this.memory[0x0040] = 0xF0;
+
+		/* Font: D */
+		this.memory[0x0041] = 0xE0;
+		this.memory[0x0042] = 0x90;
+		this.memory[0x0043] = 0x90;
+		this.memory[0x0044] = 0x90;
+		this.memory[0x0045] = 0xE0;
+
+		/* Font: E */
+		this.memory[0x0046] = 0xF0;
+		this.memory[0x0047] = 0x80;
+		this.memory[0x0048] = 0xF0;
+		this.memory[0x0049] = 0x80;
+		this.memory[0x004A] = 0xF0;
+
+		/* Font: F */
+		this.memory[0x004B] = 0xF0;
+		this.memory[0x004C] = 0x80;
+		this.memory[0x004D] = 0xF0;
+		this.memory[0x004E] = 0x80;
+		this.memory[0x004F] = 0x80;
+
+		
 		this.ROM_size = 0;
 	},
 
@@ -60,7 +173,6 @@ Chip8Emulator.prototype =
 			}
 		}
 		
-		this.ROM_size = 0;
 	},
 	
 	//Clear registers
@@ -149,7 +261,7 @@ Chip8Emulator.prototype =
 
 		this.instruction_register = address;
 
-		//document.write('return from subroutine ' + address + '</br>');
+		alert('return from subroutine ' + address);
 	
 		console.log("Return from Subroutine");
 	},
@@ -159,7 +271,7 @@ Chip8Emulator.prototype =
 		var address = (opcode & 0x0F00) + (opcode & 0x00FF);
 
 		this.instruction_register = address;
-	
+
 		console.log("Jump to Address");
 	},
 
@@ -167,11 +279,12 @@ Chip8Emulator.prototype =
 	{
 		/* Store our return point */
 		this.stack.push(this.instruction_register)
+
 		var address = (opcode & 0x0F00) + (opcode & 0x00FF);
 
 		this.instruction_register = address;
 
-		//document.write('jump to subroutine ' + address + '</br>');
+		alert('jump to subroutine ' + address);
 	
 		console.log("Call Subroutine");
 	},
@@ -221,6 +334,7 @@ Chip8Emulator.prototype =
 		var value = (opcode & 0x00FF);
 
 		this.registers[register] = value;
+		
 		console.log("Set VX Equal to NN");
 	},
 
@@ -232,9 +346,9 @@ Chip8Emulator.prototype =
 		this.registers[register] = this.registers[register] + value;
 
 		/* I'm assuming that overflow just flips back to zero */
-		if (this.registers[register] > 15)
+		if (this.registers[register] > 255)
 		{
-			this.registers[register] = 0;
+			this.registers[register] = this.registers[register] % 255;
 		}
 
 		console.log("Add NN to VX");
@@ -287,9 +401,9 @@ Chip8Emulator.prototype =
 
 		this.registers[register_x] = this.registers[register_x] + this.registers[register_y];
 
-		if (this.registers[register_x] > 15)
+		if (this.registers[register_x] > 255)
 		{
-			this.registers[register_x] = 0;
+			this.registers[register_x] = this.registers[register_x] % 255;
 			
 			/* Carry flag */
 			this.registers[0xF] = 0x1;
@@ -312,7 +426,7 @@ Chip8Emulator.prototype =
 
 		if (this.registers[register_x] < 0)
 		{
-			this.registers[register_x] = 0;
+			this.registers[register_x] = Math.abs(this.registers[register_x]) % 255;
 			
 			/* Carry flag */
 			this.registers[0xF] = 0x0;
@@ -348,7 +462,7 @@ Chip8Emulator.prototype =
 
 		if (this.registers[register_x] < 0)
 		{
-			this.registers[register_x] = 0;
+			this.registers[register_x] = Math.abs(this.registers[register_x]) % 255;
 			
 			/* Carry flag */
 			this.registers[0xF] = 0x0;
@@ -413,18 +527,87 @@ Chip8Emulator.prototype =
 		var base_value = (opcode & 0x00FF);
 		var random_number = Math.floor(Math.random() * 256);
 
-		this.registers[register] = random_number + base_value;
-		
-		if (this.registers[register] > 255)
-		{
-			this.registers[register] = 0;
-		}
+		this.registers[register] = random_number & base_value;
 
-		console.log("Sets VX to Random Number and NN");
+		console.log("Sets VX to Random Number AND NN");
 	},
 
 	opcodeDXYN: function(opcode)
 	{
+		var number_of_bytes = (opcode & 0x000F);
+		var draw_x = (opcode & 0x0F00) >> 8;
+		var draw_y = (opcode & 0x00F0) >> 4;
+
+		alert('x: ' + draw_x + ' y: ' + draw_y + ' address: ' + this.address_register);
+
+		/* Start out with no collision. If we collide at any point, this register will be 1 */
+		this.registers[0xF] = 0x0;
+
+		//document.write('x ' + draw_x + ' y ' + draw_y + ' n ' + number_of_bytes);
+		//document.write('address ' + this.address_register.toString(16));
+
+		
+		/* Start blitting our sprites */
+		for (var byte_index = 0; byte_index < number_of_bytes; byte_index++)
+		{
+			var sprite_byte = this.memory[this.address_register + byte_index];
+			var pixel1 = (sprite_byte & 0x80) >> 7;
+			var pixel2 = (sprite_byte & 0x40) >> 6;
+			var pixel3 = (sprite_byte & 0x20) >> 5;
+			var pixel4 = (sprite_byte & 0x10) >> 4;
+
+			var pixel5 = (sprite_byte & 0x08) >> 3;
+			var pixel6 = (sprite_byte & 0x04) >> 2;
+			var pixel7 = (sprite_byte & 0x02) >> 1;
+			var pixel8 = (sprite_byte & 0x01);
+
+
+			this.video_memory[draw_x+0][draw_y+byte_index] = this.video_memory[draw_x+0][draw_y+byte_index] ^ pixel1;
+			this.video_memory[draw_x+1][draw_y+byte_index] = this.video_memory[draw_x+1][draw_y+byte_index] ^ pixel2;
+			this.video_memory[draw_x+2][draw_y+byte_index] = this.video_memory[draw_x+2][draw_y+byte_index] ^ pixel3;
+			this.video_memory[draw_x+3][draw_y+byte_index] = this.video_memory[draw_x+3][draw_y+byte_index] ^ pixel4;
+
+			this.video_memory[draw_x+4][draw_y+byte_index] = this.video_memory[draw_x+4][draw_y+byte_index] ^ pixel5;
+			this.video_memory[draw_x+5][draw_y+byte_index] = this.video_memory[draw_x+5][draw_y+byte_index] ^ pixel6;
+			this.video_memory[draw_x+6][draw_y+byte_index] = this.video_memory[draw_x+6][draw_y+byte_index] ^ pixel7;
+			this.video_memory[draw_x+7][draw_y+byte_index] = this.video_memory[draw_x+7][draw_y+byte_index] ^ pixel8;
+
+			if (this.video_memory[draw_x+0][draw_y+byte_index] === 0)
+			{
+				this.registers[0xF] = 1;
+			}
+			else if (this.video_memory[draw_x+1][draw_y+byte_index] === 0)
+			{
+				this.registers[0xF] = 1;
+			}
+			else if (this.video_memory[draw_x+2][draw_y+byte_index] === 0)
+			{
+				this.registers[0xF] = 1;
+			}
+			else if (this.video_memory[draw_x+3][draw_y+byte_index] === 0)
+			{
+				this.registers[0xF] = 1;
+			}
+			
+			else if (this.video_memory[draw_x+4][draw_y+byte_index] === 0)
+			{
+				this.registers[0xF] = 1;
+			}
+			else if (this.video_memory[draw_x+5][draw_y+byte_index] === 0)
+			{
+				this.registers[0xF] = 1;
+			}
+			else if (this.video_memory[draw_x+6][draw_y+byte_index] === 0)
+			{
+				this.registers[0xF] = 1;
+			}
+			else if (this.video_memory[draw_x+7][draw_y+byte_index] === 0)
+			{
+				this.registers[0xF] = 1;
+			}
+			
+		}
+	
 		console.log("Draws a sprite at (VX,VY) With Width 8 and height N. VF Set to 1 if any pixels flipped");
 	},
 
@@ -499,24 +682,104 @@ Chip8Emulator.prototype =
 
 	opcodeFX29: function(opcode)
 	{
-		/* Need to handle pointing to font sprites */
+		var character = (opcode & 0x0F00) >> 8;
 
+		/* Set address register to proper font */
+		switch(character)
+		{
+			case 0x00:
+				this.address_register = 0x00;
+				break;
+			case 0x01:
+				this.address_register = 0x05;
+				break;
+			case 0x02:
+				this.address_register = 0x0A;
+				break;
+			case 0x03:
+				this.address_register = 0x0F;
+				break;
+			case 0x04:
+				this.address_register = 0x14;
+				break;
+			case 0x05:
+				this.address_register = 0x19;
+				break;
+			case 0x06:
+				this.address_register = 0x1E;
+				break;
+			case 0x07:
+				this.address_register = 0x23;
+				break;
+			case 0x08:
+				this.address_register = 0x28;
+				break;
+			case 0x09:
+				this.address_register = 0x2D;
+				break;
+			case 0x0A:
+				this.address_register = 0x32;
+				break;
+			case 0x0B:
+				this.address_register = 0x37;
+				break;
+			case 0x0C:
+				this.address_register = 0x3C;
+				break;
+			case 0x0D:
+				this.address_register = 0x41;
+				break;
+			case 0x0E:
+				this.address_register = 0x46;
+				break;
+			case 0x0F:
+				this.address_register = 0x4B;
+				break;
+		}
+
+		alert(character.toString(16) + ' address: ' + this.address_register);
+		
 		console.log("Set I to the location of the sprite for character VX");
 	},
 
 	opcodeFX33: function(opcode)
 	{
+		var value = (opcode & 0x0F00) >> 8;
+
+		this.memory[this.address_register] = Math.floor(value/100);
+		this.memory[this.address_register+1] = Math.floor(value/10)%10;
+		this.memory[this.address_register+2] = (value%100)%10;
+
+		alert(value);
+		alert(this.memory[this.address_register]);
+		alert(this.memory[this.address_register+1]);
+		alert(this.memory[this.address_register+2]);
+
 		console.log("This opcode needs to be read over at a point when I'm not asleep");
 		console.log("sheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeit");
 	},
 
 	opcodeFX55: function(opcode)
 	{
+		var value = (opcode & 0x0F00) >> 8;
+
+		for (var index = 0; index <= value; index++)
+		{
+			this.memory[this.address_register + index] = this.registers[index];
+		}
+		
 		console.log("Stores V0 to VX in memory starting at address I");
 	},
 
 	opcodeFX65: function(opcode)
 	{
+		var value = (opcode & 0x0F00) >> 8;
+
+		for (var index = 0; index <= value; index++)
+		{
+			this.registers[index] = this.memory[this.address_register + index];
+		}
+		
 		console.log("Fills V0 to VX with values from memory starting at address I");
 	},
 
