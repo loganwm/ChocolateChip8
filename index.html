@@ -1,12 +1,79 @@
-<html>
+<!DOCTYPE html>
 	<head>
-		<title>Chocolate Chip 8</title>
-		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.js"></script>
-		<script type="text/javascript" src="socket.io/socket.io.js"></script>
+		<title>Fallout 3 Terminal Hacking - Mitchell Thompson</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script src="terminal.js"></script>
 		<script type="text/javascript" src="./js/chip8.js"></script>
-		<script type="text/javascript" src="./js/interface.js"></script>
+		<script type="text/javascript">
+			var emu = new Chip8Emulator();
+			
+			
+			function doit()
+			{
+				var rom = "oh7CATIBohrQFHAEMEASAGAAcQQxIBIAEhiAQCAQIECAEA==";
+
+				var binary_string = atob(rom);
+				
+				var binary_data = [];
+				for (var i = 0; i < binary_string.length; i++)
+				{
+					binary_data[i] = binary_string.charCodeAt(i);
+				}
+				
+				emu.loadROM(binary_data);
+				
+			}
+		</script>
 	</head>
 	<body>
-		<canvas id="gamecanvas" width="320" height="160" tabindex="1"></canvas>
+		<style type="text/css">
+			@import "styles.css";
+		</style>
+		<div id="terminal-background" style="background-image: url('graphics/monitorborder.png');">
+			<img id="terminal-background-off" src="graphics/monitorborder-off.png" />
+		</div>
+		<div id="terminal">
+			<canvas id="terminal-screen-render"></canvas>
+		</div>
+		<div id="powerbutton" onclick="TogglePower()"></div>
+
+		<div id="imagecache" style="visibility: hidden;">
+			<img style="visibility: hidden;" src="graphics/bg.png"></img>
+		</div>
+		
+		<script type="text/javascript">
+			var screen = document.getElementById("terminal-screen-render");
+			var ctx = screen.getContext("2d");
+			function drawScreen()
+			{
+				//ctx.fillStyle = "#000000";
+				ctx.clearRect(0,0,320,160);
+				
+				ctx.fillStyle = "#33dd88";
+				for (var x = 0; x < 64; x++)
+				{
+					for (var y = 0; y < 32; y++)
+					{
+						if (emu.video_memory[x][y] === 0x01)
+						{
+							ctx.fillRect(x*5,y*5,5,5);
+						}
+					}
+				}
+			}
+			
+			function iterdraw()
+			{
+				emu.executeFrame();
+				drawScreen();
+			}
+			
+			document.onready = function()
+			{
+				doit();
+				setInterval("iterdraw()",20);
+			}
+		</script>
+		
 	</body>
 </html>

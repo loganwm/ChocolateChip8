@@ -535,10 +535,13 @@ Chip8Emulator.prototype =
 	opcodeDXYN: function(opcode)
 	{
 		var number_of_bytes = (opcode & 0x000F);
-		var draw_x = (opcode & 0x0F00) >> 8;
-		var draw_y = (opcode & 0x00F0) >> 4;
+		var register_x = (opcode & 0x0F00) >> 8;
+		var register_y = (opcode & 0x00F0) >> 4;
 
-		alert('x: ' + draw_x + ' y: ' + draw_y + ' address: ' + this.address_register);
+		var draw_x = this.registers[register_x];
+		var draw_y = this.registers[register_y];
+
+		//alert('x: ' + draw_x + ' y: ' + draw_y + ' address: ' + this.address_register);
 
 		/* Start out with no collision. If we collide at any point, this register will be 1 */
 		this.registers[0xF] = 0x0;
